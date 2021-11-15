@@ -1,10 +1,8 @@
-// require http requirest module
-const httpRequest = require("http");
+const httpRequest = require("http"); // require http requirest module
 const path = require("path");
-//creating the server
-const server = httpRequest.createServer();
-// importing the functions from promise.js file {reader and writer function} "../ I used it just to be sure I am in the right direcotry"
-const fileOperations = require("../homework/promises")
+
+const server = httpRequest.createServer(); //creating the server
+const fileOperations = require("../homework/promises") // importing the functions from promise.js file {reader and writer function} "../ I used it just to be sure I am in the right direcotry"
 
 
 // putting the server on work

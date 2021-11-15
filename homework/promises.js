@@ -1,7 +1,5 @@
-// require fs module for accessing in filesystem 
-const fs = require("fs/promises");
-//require path module the use one general path for all OS
-const path = require("path");
+const fs = require("fs/promises"); // require fs module for accessing in filesystem 
+const path = require("path"); //require path module the use one general path for all OS
 
 
 // the path of the file

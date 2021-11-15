@@ -1,9 +1,9 @@
 {
   "name": "package.json",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.17.1",
     "package.json": "^2.0.1"
   },
   "devDependencies": {},
@@ -20,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/kelmendimeri/nodeJS/issues"
   },
-  "homepage": "https://github.com/kelmendimeri/nodeJS#readme"
+  "homepage": "https://github.com/kelmendimeri/nodeJS#readme",
+  "description": ""
 }
