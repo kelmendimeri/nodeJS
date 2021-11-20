@@ -10,7 +10,7 @@ router.get('/api-docs', swaggerUi.setup(swaggerDocs));
 router.get("/planets", handler.allPlanets);
 router.post("/planets", handler.addPlanet);
 router.get("/planets/:id", handler.getPlanetById);
-router.put("/planets/:id", handler.updatePlane);
+router.put("/planets/:id", handler.updatePlanet);
 router.delete("/planets/:id", handler.destroyPlane);
 
 

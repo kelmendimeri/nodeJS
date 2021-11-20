@@ -66,22 +66,32 @@ const allPlanets = async (req, res, next) => {
 
 const addPlanet = async (req, res, next) => {
     const body = req.body
+    body.name = ""
+    body.size = ""
+    body.distanceFromSun = ""
     const newPlanet = {
         id: planets.length + 1,
         name: body.name,
         size: body.size,
         distanceFromSun: body.distanceFromSun
     }
-    if (planets.find(element => element.name == newPlanet.name)) {
-        return res.status(409).json("Planet already exist.")
+    const result = planets.find(element => element.name == newPlanet.name)
+    if (body.name != "" && body.size != "" && body.distanceFromSun != "") {
+        if (result) {
+            return res.status(409).json("Planet already exist.")
+        }
+        else {
+            planets.push(newPlanet)
+            return res.status(200).json("Planet created Master")
+        }
     }
-    else if (newPlanet.id === "" || newPlanet.name === "" || newPlanet.size === "" || newPlanet.distanceFromSun === "") {
-        return res.status(400).json("invalid input, object invalid.")
+    if (body.name === "" || body.size === "" || body.distanceFromSun === "") {
+        return res.status(400).json("invalid input, object invalid")
     }
     else {
-        planets.push(newPlanet)
-        return res.status(200).json("Planet created Master.")
+        return res.status(500).json("Server is not running properly")
     }
+
 };
 
 const getPlanetById = async (req, res, next) => {
@@ -96,16 +106,24 @@ const getPlanetById = async (req, res, next) => {
 };
 
 
-const updatePlane = async (req, res, next) => {
+const updatePlanet = async (req, res, next) => {
+    const id = +req.params.id
     const body = req.body
-    const result = planets.find(planet => planet.id === planets[id])
+    const result = planets.find(planet => planet.id === id)
+
     if (result) {
-        planets.id = body.id
-        planets.name = body.name
-        planets.size = body.size
-        planets.distanceFromSun = body.distanceFromSun
+        if (body.name != "" && body.size != " " && body.distanceFromSun != " ") {
+            result.name = body.name
+            result.size = body.size
+            result.distanceFromSun = body.distanceFromSun
+            //console.log(result.name + " " + result.size + " " + result.distanceFromSun) ---> I checked for the input
+            return res.status(200).json("Planet is Updated master.")
+        }
+        else {
+            res.status(201).json("Missing infromation to Update!")
+        }
     }
-    else if (body.id === "") {
+    else if (id === " ") {
         return res.status(400).json("Missing information. Bad Request.")
     }
     else {
@@ -115,11 +133,14 @@ const updatePlane = async (req, res, next) => {
 
 
 const destroyPlane = async (req, res, next) => {
-    const body = req.body
-    const result = planets.find(planet => planets[id] === body.id)
+    const id = +req.params.id
+    const result = planets.find(planet => planet.id === id)
+    const detele_planet = planets[id - 1]
+    if (id > planets.length - 1) {
+        res.status(404).json("Not Found. Index out of bound!")
+    }
     if (result) {
-        // confirm("are you sure master ?!")
-        delete planets[body.id]
+        delete planets[id - 1]
         res.status(200).json("Planet is destroyed. Ok!")
     }
     else if (body.id === "") {
@@ -130,4 +151,4 @@ const destroyPlane = async (req, res, next) => {
     }
 };
 
-module.exports = { allPlanets, addPlanet, getPlanetById, updatePlane, destroyPlane }
+module.exports = { allPlanets, addPlanet, getPlanetById, updatePlanet, destroyPlane }
