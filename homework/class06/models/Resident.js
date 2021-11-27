@@ -1,14 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-
-const ResidentSchema = new mongoose.Schema({
-    _id: Number, 
-    name: String, 
-    hasCar: Boolean, 
-    isBoomer:Boolean
+const residentSchema = new mongoose.Schema({
+    name: String,
+    hasCar: Boolean,
+    isBoomer: Boolean
 });
 
-const Resident = mongoose.model('residents', ResidentSchema);
+const residentModel = mongoose.model('residents', residentSchema);
 
-
-module.exports = Resident;
+module.exports = {residentModel};

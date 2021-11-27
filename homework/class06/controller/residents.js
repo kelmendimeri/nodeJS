@@ -1,63 +1,72 @@
-const residentModel = require('../models/Resident');
+const models = require("../models/Resident");
 
-
-const getAllResidents = async (req, res, next) => {
+const getAllResidents = async(req, res, next) => {
     try{
-        const residents = await residentModel.find();
-        return res.status(200).json(residents);
+        const residnets = await models.residentModel.find();
+        res.status(200).json(residnets);
     }catch(err){
-        return res.status(500).json(err);
+        res.status(500).json(err)
     }
-};
+}
 
-
-const addNewResident = async (req, res, next) => {
+const addNewResident = async(req, res, next) => {
     const residentBody = req.body;
     const newResident = {
-        _id: residentModel.length + 1,
+        // _id: models.residentModel.length + 1, --> Id is an Object automaticly added
+        // so we gonna use name as primary
         name: residentBody.name,
         hasCar: residentBody.hasCar,
-        isBoomer: residentBody.isBoomer
-    };
+        isBoomer: residentBody.isBoomer,
+    };    
 
-    const residentExist = await residentModel.findOne({name: residentBody.name});
-    if(residentExist){
-       return  res.status(409).json("Resident already exist");
-    }
+    const residentExist = await models.residentModel.findOne({name: residentBody.name});
     try{
-    await residentModel.create(newResident);
-    return res.status(200).json("Resident added");
-    }catch(err){
-        return res.status(500).json(err);
-    }
-};
-
-const updateResident = async (req, res, next) => {
-    const id = +req.params.id;
-    const residentBody = req.body;
-    const editResident = {
-        name: residentBody.name,
-        hasCar: residentBody.hasCar,
-        isBoomer: residentBody.isBoomer
-    };
-    try{
-        await residentModel.findByIdAndUpdate(id, editResident);
-        return res.status(200).json("Resident updated");
-    }catch(err){
-        return res.status(500).json(err);
-    }
-};
-
-const deleteResident = async (req, res, next)=>{
-    const id = +req.params.id;
-    try{
-        if(!id){
-            return res.status(400).json("No resident deleted");
+        if(residentExist){
+            res.status(409).json("Exist");
+        }else{
+            await models.residentModel.create(newResident);
+            res.status(200).json("Added");
         }
-        await residentModel.findByIdAndDelete(id);
-        return res.status(200).json("Resident deleted");
     }catch(err){
-        return res.status(500).json(err);
+        res.status(500).json(err);   
+    }
+};
+
+const updateResident = async(req, res, next)=>{
+    const params = req.params.name;
+    const residentBody = req.body;
+    const residnetInfo = {
+        name: residentBody.name,
+        hasCar: residentBody.hasCar,
+        isBoomer: residentBody.isBoomer
+    };
+
+    const residentExist = await models.residentModel.findOne({name: params});
+    if(residentExist){
+        try{
+            await models.residentModel.updateOne({name: params}, residnetInfo);
+            return res.status(200).json("Resident Edited");
+        }catch(err){
+            return res.status(500).json(err);
+        }
+    }
+    else{
+        return res.status(409).json("No edit performed.");
+    }
+};
+
+const deleteResident = async(req, res, next) => {
+    const params = req.params.name;
+    const residentExist = await models.residentModel.findOne({name: params});
+    if(residentExist){
+        try{
+            await models.residentModel.findOneAndRemove({name: params});
+            return res.status(200).json("Resident deleted");
+        }catch(err){
+            return res.status(500).json(err);
+        }
+    }else{
+        return res.status(409).json("No edit performed.");
     }
 };
 
