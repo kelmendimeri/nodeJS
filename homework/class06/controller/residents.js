@@ -4,7 +4,7 @@ const getAllResidents = async(req, res, next) => {
     try{
         const residents = await models.residentModel.find();
         // res.status(200).json(residnets);
-        res.render('../index.ejs', {favoriteData: residents});
+        res.render('../index.ejs', {favoriteData: residents, notice: ''});
     }catch(err){
         res.status(500).json(err)
     }
@@ -26,7 +26,7 @@ const addNewResident = async(req, res, next) => {
             res.status(409).json("Exist");
         }else{
             await models.residentModel.create(newResident);
-            res.status(200).json("Added");
+            res.render('../index.ejs', {favoriteData: await models.residentModel.find(), notice: 'Resident added'});
         }
     }catch(err){
         res.status(500).json(err);   
@@ -46,7 +46,7 @@ const updateResident = async(req, res, next)=>{
     if(residentExist){
         try{
             await models.residentModel.updateOne({name: params}, residnetInfo);
-            return res.status(200).json("Resident Edited");
+            res.render('../index.ejs', {favoriteData: await models.residentModel.find(), notice: 'Resident edited'});
         }catch(err){
             return res.status(500).json(err);
         }
@@ -61,8 +61,10 @@ const deleteResident = async(req, res, next) => {
     const residentExist = await models.residentModel.findOne({name: params});
     if(residentExist){
         try{
-            await models.residentModel.findOneAndRemove({name: params});
-            return res.status(200).json("Resident deleted");
+            
+                await models.residentModel.findOneAndRemove({name: params});
+                res.render('../index.ejs', {favoriteData: await models.residentModel.find(), notice: 'Resident deleted'});
+            
         }catch(err){
             return res.status(500).json(err);
         }
