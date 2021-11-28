@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Let's Use EJS</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+</head>
+  <body class="container">
+    <h2>Residents:</h2>
+    <ul>
+        
+        <% favoriteData.forEach(item => { %>
+            <li><%= item %></li>
+        <% }) %>
+
+    </ul>
+  </body>
+</html>

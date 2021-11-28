@@ -2,8 +2,9 @@ const models = require("../models/Resident");
 
 const getAllResidents = async(req, res, next) => {
     try{
-        const residnets = await models.residentModel.find();
-        res.status(200).json(residnets);
+        const residents = await models.residentModel.find();
+        // res.status(200).json(residnets);
+        res.render('../index.ejs', {favoriteData: residents});
     }catch(err){
         res.status(500).json(err)
     }
