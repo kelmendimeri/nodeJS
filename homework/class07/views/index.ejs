@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Let's Use EJS</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  </head>
+  <body class="container">
+    <% if(notice){ %>
+    <div class="alert alert-success" role="alert">
+      <p> <%= notice%></p>
+    </div>
+    <% } %>
+  
+    <h2>Residents:</h2>
+    <table class="table">
+      <thead>
+        <tr>
+
+          <th scope="col">Title</th>
+          <th scope="col">Content</th>
+          <th scope="col">Created at:</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% favoriteData.forEach(post => { %>
+          <tr>
+            <td>
+              <%= post.title %>
+            </td>
+            <td>
+              <%= post.ontent %>
+            </td>
+            <td>
+              <%= post.timeOfPost %>
+            </td>
+          </tr>
+            <% }) %>
+      
+      </tbody>
+    </table>
+
+
+    
+  </body>
+</html>
