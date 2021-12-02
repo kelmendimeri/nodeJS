@@ -6,17 +6,18 @@ const getCarByConsuption = async(req, res, next)=>{
     try{
         const matchingConsumption = await Car.find({
             $and: [{"lkmh": {$gte: carConsumptionFrom}},{"lkmh": {$lte: carConsumptionTo}}]});
-        return res.status(200).json(matchingConsumption);
+        res.render('../views/index.ejs', {favoriteData: matchingConsumption, notice: ""});
     }catch(err){
         return res.status(500).json(err);
     }
 };
 
 const getCarByTrainPower = async(req, res, next)=>{
-    const carPowerTrain = req.query.powerTrain;
+    const carPowerTrain = req.query.powerTrain.toLowerCase();
     try{
-        const matchingMake = await Car.find().where('powerTrain', carPowerTrain).limit(5).sort('make');
-        return res.status(200).json(matchingMake);
+        const matchingPowerTrain = await Car.find().where('powerTrain', carPowerTrain);
+
+        res.render('../views/index.ejs', {favoriteData: matchingPowerTrain, notice: ""});
     }catch(err){
         return res.status(500).json(err);
     }
@@ -32,7 +33,7 @@ const getCarByColorAndByConsumption = async(req, res, next)=>{
                 { "lkmh": {$lte: req.query.gasConsumptionTo}} 
             ]
         });
-        return res.status(200).json(matchingConsumption);
+        res.render('../views/index.ejs', {favoriteData: matchingConsumption, notice: ""});
     }catch(err){
         console.log(err);
         return res.status(500).json(err);

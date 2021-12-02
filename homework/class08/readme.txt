@@ -6,3 +6,4 @@ query serach examples
     post request -> localhost:8080/api/v1/cars 
                     insert bulkdata in req.body
 
+ 
