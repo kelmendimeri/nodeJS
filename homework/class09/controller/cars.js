@@ -12,14 +12,16 @@ const getCars = async(req, res, next)=>{
                         as: "fullDetails",
                     }
                 }
-            ]).project({
-                make: '$make',
-                model: '$model',
-                yearOfBuild: '$yearOfBuild',
-                drivers: {
-                    $first: '$fullDetails'
-                },
-            });
+            ,{
+                $project: {
+                    make: '$make',
+                    model: '$model',
+                    yearOfBuild: '$yearOfBuild',
+                    drivers: {
+                        $first: '$fullDetails'
+                    },
+                }
+            }]);
             return res.status(200).json(details);
        }catch(err){
         console.log(err);pro
